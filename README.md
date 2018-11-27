@@ -1,2 +1,2 @@
 # Epic
-Contains plans and ideas
+Contains scripts of all kinds made by me
