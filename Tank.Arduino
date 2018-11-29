@@ -1,0 +1,75 @@
+const int in1Pin = 3;  // H-Bridge input pins
+const int in2Pin = 2;
+const int in3Pin = 4;
+const int in4Pin = 5;
+const int led1 = 6; // Cannon LED pin
+void setup()
+{
+  Serial.begin(9600); //begin 9.6 seconds
+  pinMode(in1Pin, OUTPUT); //instructions for Motor 1(clockwise)
+  pinMode(in2Pin, OUTPUT); //instrcutions for Motor 1(Counter-Clockwise)
+  pinMode(in3Pin, OUTPUT); //instructions for Motor 2(Clockwise)
+  pinMode(in4Pin, OUTPUT); //instructions for Motor 2(Counter-Clockwise)
+  pinMode(led1, OUTPUT); //instructions for LED 1
+  Serial.println("Controls: F = Foward, R = Right, L = Left, B = Backwards, S = Stop, W = Fire at Will, w = cease fire");
+}
+void loop()
+{
+  if ( Serial.available()) {
+    char ch = Serial.read();
+    if (ch == 'F') // Make 'F' Foward
+    {
+      Serial.println("Going Fowards"); //Response for Serial Moniter
+      digitalWrite(in1Pin,LOW); //Instructions for going Fowards
+      digitalWrite(in2Pin,LOW);
+      digitalWrite(in3Pin,LOW);
+      digitalWrite(in4Pin,HIGH);
+    }
+    else if (ch == 'B') //Make 'B' Backwards
+    {
+      Serial.println("Going Backwards"); //Response for Serial Moniter
+      digitalWrite(in1Pin,LOW); //Instructions for going Backwards
+      digitalWrite(in2Pin,LOW);
+      digitalWrite(in3Pin,HIGH);
+      digitalWrite(in4Pin,LOW);
+    }
+    else if(ch == 'W') //Make 'W' Fire at Will
+    {
+      Serial.print("AWAY"); //Response for Serial Moniter
+      digitalWrite(led1, HIGH); //Instructions for Firing at Will
+    }
+    else if(ch == 'w') //Make 'w' Cease Fire
+    {
+      Serial.print("Ceasing Fire"); //Response for Serial Moniter
+      digitalWrite(led1, LOW); //Instructions for Cease Fire
+    }
+    else if(ch == 'S') //Make 'S' Stop
+    {
+      Serial.print("Stopping"); //Response for Serial Moniter
+      digitalWrite(in1Pin,LOW); //Instructions for Stopping
+      digitalWrite(in2Pin,LOW);
+      digitalWrite(in3Pin,LOW);
+      digitalWrite(in4Pin,LOW);
+    }
+    else if(ch == 'L') //Make 'L' Left
+    {
+      Serial.print("Turning Left"); //Response for Serial Moniter
+      digitalWrite(in1Pin,HIGH); //Instructions for turning Left
+      digitalWrite(in2Pin,LOW);
+      digitalWrite(in1Pin,LOW);
+      digitalWrite(in2Pin,HIGH);
+      digitalWrite(in3Pin,HIGH);
+      digitalWrite(in4Pin,LOW);
+      digitalWrite(in3Pin,LOW);
+      digitalWrite(in4Pin,HIGH);   
+    }
+    else if(ch == 'R') //Make 'R' Right
+    {
+      Serial.print("Turning Right"); //Response for Serial Moniter
+      digitalWrite(in1Pin,HIGH); //Instructions for going Fowards
+      digitalWrite(in2Pin,LOW);
+      digitalWrite(in3Pin,LOW);
+      digitalWrite(in4Pin,HIGH);
+    } 
+  }
+}
